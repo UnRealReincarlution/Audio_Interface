@@ -8,16 +8,20 @@ let volume = 1;
 
 var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 
+function get_song(){
+    document.getElementById('music_source').src='songs/' + artist + ".mp3";
+}
+
 function startplayer() {
     player = document.getElementById('music_player');
     player.controls = false;   
 
         // Predefining Song Information                 ----------  [ TBR ] -----------
-    song = "Fly me to the Moon";
+    song = "Fly me to the moon";
     artist = "Joytastic Sarah";
 
-    var song_title = document.getElementById("song_title").innerHTML = "<strong>" + song + "</strong>";
-    var song_artist = document.getElementById("song_artist").innerHTML = " - " + artist;
+    document.getElementById("song_title").innerHTML = "<strong>" + song + "</strong>";
+    document.getElementById("song_artist").innerHTML = " - " + artist;
 
     // Set Volume Indicators
     if(volume === 0){
@@ -83,20 +87,8 @@ function play_aud(){
     // Play the audio
     player.play();
 
-    /* Fade In
-    for(var i = 0; i < (volume * 100) - 1; i++){
-        setInterval(vol_increment(), 200);
-    }*/
-
-    var fadeAudio = setInterval(function () {
-        if (player.volume === volume) {
-            clearInterval(fadeAudio);
-        }else{
-            player.volume -= 0.1;
-        }
-    }, 200);
-
-    player.volume = volume;
+    // Fade In
+   $("#music_player").animate({volume: volume}, 500);
 
     // Update the Playhead Position
     timeUpdate();
@@ -166,19 +158,11 @@ function pause_aud(){
     // Setting the "Playing" variable to false.
     playing = false;
 
-    // Fade out
-    for(var i = 0; i < (volume * 100) - 1; i++){
-        console.log("waiting...");
-        
-        ;(async () => {
-            await wait(200);
-        })();
-
-        setTimeout(vol_decrement(), 200);
-    }
+    // Fade Out
+    $("#music_player").animate({volume: 0}, 500);
 
     // Pause Audio
-    player.pause();
+    setTimeout(stop_aud, 1000);
 
     // Toggle Play_Button Class from visible to hidden
     var play_button = document.getElementById("play_button").classList.toggle("hidden");
@@ -189,7 +173,6 @@ function pause_aud(){
 
 function stop_aud(){
     player.pause();
-    player.currentTime = 0;
 }
 
 function change_vol(volumeT){
@@ -225,6 +208,29 @@ function UpdateTime(){
     console.log("ran")
 }
 
+function getDate(){
+    // Month
+    const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+    const d = new Date();
+    console.log(monthNames[d.getMonth()]);
+    document.getElementById("date_month").innerHTML = monthNames[d.getMonth()];
+
+    // Day
+    document.getElementById("date_day").innerHTML = d.getDate();
+}
+
+document.onkeyup = function(e){
+    if(e.keyCode === 32){
+        if(playing){
+            pause_aud();
+        }else{
+            play_aud();
+        }
+    }
+}
+
+
+
 /* Playhead Moving
 function clickPercent(event) {
     return (event.clientX - getPosition(timeline)) / timelineWidth;
@@ -252,18 +258,3 @@ function getPosition(el) {
 }
 */
 
-document.onkeyup = function(e){
-    if(e.keyCode === 32){
-        if(playing){
-            pause_aud();
-        }else{
-            play_aud();
-        }
-    }
-}
-
-/*
-function get_song(){
-    document.getElementById('music_source').src='songs/Aiivawn - ';
-}
-*/
