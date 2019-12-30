@@ -17,8 +17,8 @@ function startplayer() {
     player.controls = false;   
 
         // Predefining Song Information                 ----------  [ TBR ] -----------
-    song = "Fly me to the moon";
-    artist = "Joytastic Sarah";
+    song = "How do you sleep";
+    artist = "Sam Smith";
 
     document.getElementById("song_title").innerHTML = "<strong>" + song + "</strong>";
     document.getElementById("song_artist").innerHTML = " - " + artist;
