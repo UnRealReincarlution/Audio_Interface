@@ -13,7 +13,11 @@
     
     <title>Audio_Player</title>
 </head>
-<body>
+<body onload="getDate()">
+    <div id="date" >
+        <a id="date_day">Day</a>
+        <a id="date_month">Month</a>
+    </div>
     <div id="player">
         <audio id="music_player">     <!--  onchange="get_song()"  -->
             <source id="music_source" src="songs/Joytastic_Sarah.mp3"/>
